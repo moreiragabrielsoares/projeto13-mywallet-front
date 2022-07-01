@@ -38,7 +38,7 @@ function NewIncomePage () {
     }
     
     function registerSuccess (res) {
-        navigate("/wallet");
+        navigate("/mywallet");
     }
 
 
@@ -80,6 +80,10 @@ function NewIncomePage () {
                         : (<FormButton type="submit" disabled={isFormDisabled}>Salvar entrada</FormButton>)
                     }
                 </Form>
+
+                <Link to="/mywallet" style={{textDecoration: 'none'}}>
+                    <ReturnButton>Voltar</ReturnButton>
+                </Link>
 
             </Container>
 
@@ -162,6 +166,19 @@ const FormButton = styled.button`
         opacity: 0.6;
     }
 
+    :hover {
+        cursor: pointer;
+    }
+`;
+
+const ReturnButton = styled.div`
+    font-family: 'Raleway';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 15px;
+    color: #FFFFFF;
+    margin: 20px auto;
+    text-align: center;
     :hover {
         cursor: pointer;
     }

@@ -40,7 +40,7 @@ function LoginPage() {
     function loginSuccess (res) {
         setToken(res.data.token);
         setUserName(res.data.name);
-        navigate("/wallet");
+        navigate("/mywallet");
     }
 
     
