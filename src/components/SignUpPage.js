@@ -26,14 +26,15 @@ function SingUpPage() {
         const singUpObj = {
             name: userName,
             email: userEmail,
-            password: userPassword
+            password: userPassword,
+            confirmPassword: confirmPassword
         }
 
-        const request = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up", singUpObj);
+        const request = axios.post("http://localhost:5000/signup", singUpObj);
         
         request.then((res) => {navigate("/")});         
         
-        request.catch((erro) => {alert(erro.response.data.message); setIsFormDisabled(false); setUserEmail(""); setUserPassword(""); setUserName(""); setConfirmPassword("")});
+        request.catch((erro) => {alert(erro.response.data); setIsFormDisabled(false); setUserEmail(""); setUserPassword(""); setUserName(""); setConfirmPassword("")});
     }
 
     
@@ -46,8 +47,7 @@ function SingUpPage() {
 
                 <LogoLine>MyWallet</LogoLine>
 
-                {/* Inserir onSubmit={register} */}
-                <Form>
+                <Form onSubmit={register}>
                     <FormInput 
                         id="userName" 
                         placeholder="Nome" 

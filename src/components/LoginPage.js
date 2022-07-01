@@ -17,7 +17,7 @@ function LoginPage() {
     
     const navigate = useNavigate();
 
-    const {token, setToken, userName, setUserName} = useContext(UserContext);
+    const {setToken, setUserName} = useContext(UserContext);
     
     function login(event) {
         event.preventDefault();
@@ -28,11 +28,11 @@ function LoginPage() {
             password: userPassword
         }
 
-        const request = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login", loginObj);
+        const request = axios.post("http://localhost:5000/", loginObj);
         
         request.then(loginSuccess);         
         
-        request.catch((erro) => {alert(erro.response.data.message); setIsFormDisabled(false)});
+        request.catch((erro) => {alert(erro.response.data); setIsFormDisabled(false)});
 
     }
     
@@ -51,8 +51,7 @@ function LoginPage() {
 
                 <LogoLine>MyWallet</LogoLine>
                 
-                {/* Inserir onSubmit={login} */}
-                <Form>
+                <Form onSubmit={login}>
                     <FormInput 
                         id="userEmail" 
                         placeholder="E-mail" 
