@@ -42,7 +42,60 @@ function NewIncomePage () {
     }
 
 
+    function handleValueField (event) {
+        let value = event.target.value;
+        value = value.replace(/[^0-9\,]+/g, '');
+        if (value === "0") {
+            setIncomeValue("");
+            return;
+        }
 
+        if (value[value.length - 1] === ",") {
+            setIncomeValue("");
+            return;
+        }
+
+        if (value.length === 1) {
+            value = "0,0" + value;
+            setIncomeValue(value);
+            return;
+        }
+
+        if (value.length > 1) {
+
+            if (value.length === 3) {
+                const newValue = ("0" + value).split("");
+                const temp = newValue[1];
+                newValue[1] = ",";
+                newValue[2] = temp;
+
+                setIncomeValue(newValue.join(""));
+
+                if (newValue.join("") === "0,00") {
+                    setIncomeValue("");
+                    return;
+                }
+
+                return;
+            }
+
+            const currencyValue = value.split("");
+
+            const index = currencyValue.indexOf(",");
+
+            const aux = currencyValue[currencyValue.length - 3];
+            currencyValue[currencyValue.length - 3] = ","
+            currencyValue[index] = aux;
+
+            if (currencyValue[0] === "0") {
+                currencyValue.splice(0, 1);
+            }
+
+            setIncomeValue(currencyValue.join(""));
+            return;
+        }
+
+    };
 
     
     return (
@@ -57,9 +110,9 @@ function NewIncomePage () {
                     <FormInput 
                         id="incomeValue" 
                         placeholder="Valor" 
-                        onChange={e => setIncomeValue(e.target.value)} 
+                        onChange={handleValueField} 
                         value={incomeValue}
-                        type="number"
+                        type="text"
                         required
                         disabled={isFormDisabled}
                     />
@@ -71,6 +124,7 @@ function NewIncomePage () {
                         type="text"
                         required
                         disabled={isFormDisabled}
+                        maxLength="30"
                     />
 
                     {isFormDisabled ? 

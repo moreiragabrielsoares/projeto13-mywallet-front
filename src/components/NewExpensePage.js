@@ -46,6 +46,61 @@ function NewExpensePage () {
     }
 
 
+    function handleValueField (event) {
+        let value = event.target.value;
+        value = value.replace(/[^0-9\,]+/g, '');
+        if (value === "0") {
+            setExpenseValue("");
+            return;
+        }
+
+        if (value[value.length - 1] === ",") {
+            setExpenseValue("");
+            return;
+        }
+
+        if (value.length === 1) {
+            value = "0,0" + value;
+            setExpenseValue(value);
+            return;
+        }
+
+        if (value.length > 1) {
+
+            if (value.length === 3) {
+                const newValue = ("0" + value).split("");
+                const temp = newValue[1];
+                newValue[1] = ",";
+                newValue[2] = temp;
+
+                setExpenseValue(newValue.join(""));
+
+                if (newValue.join("") === "0,00") {
+                    setExpenseValue("");
+                    return;
+                }
+
+                return;
+            }
+
+            const currencyValue = value.split("");
+
+            const index = currencyValue.indexOf(",");
+
+            const aux = currencyValue[currencyValue.length - 3];
+            currencyValue[currencyValue.length - 3] = ","
+            currencyValue[index] = aux;
+
+            if (currencyValue[0] === "0") {
+                currencyValue.splice(0, 1);
+            }
+
+            setExpenseValue(currencyValue.join(""));
+            return;
+        }
+
+    };
+
 
     return (
         <PageBackground>
@@ -59,7 +114,7 @@ function NewExpensePage () {
                     <FormInput 
                         id="expenseValue" 
                         placeholder="Valor" 
-                        onChange={e => setExpenseValue(e.target.value)} 
+                        onChange={handleValueField} 
                         value={expenseValue}
                         type="number"
                         required
@@ -73,6 +128,7 @@ function NewExpensePage () {
                         type="text"
                         required
                         disabled={isFormDisabled}
+                        maxLength="30"
                     />
 
                     {isFormDisabled ? 

@@ -30,7 +30,7 @@ function WalletPage () {
 
                         <LineRegister>
                             <DayRegister>30/11</DayRegister>
-                            <DescriprionRegister>Almoço mãe</DescriprionRegister>
+                            <DescriprionRegister>AAAAAAAAAAAA</DescriprionRegister>
                             <ValueRegister>40,00</ValueRegister>
                         </LineRegister>
 
@@ -262,6 +262,8 @@ const DescriprionRegister = styled.div`
     font-weight: 400;
     font-size: 16px;
     color: #000000;
+    max-width: 180px;
+    word-wrap: break-word;
 `;
 
 const ValueRegister = styled.div`
