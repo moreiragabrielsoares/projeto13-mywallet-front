@@ -33,7 +33,13 @@ function NewExpensePage () {
             description: expenseDescription
         }
 
-        const request = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login", newExpenseObj);
+        const config = {
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        }
+
+        const request = axios.post("http://localhost:5000/newexpense", newExpenseObj, config);
         
         request.then(registerSuccess);         
         
@@ -109,14 +115,13 @@ function NewExpensePage () {
 
                 <TitleLine>Nova saída</TitleLine>
 
-                {/* Inserir onSubmit={registerExpense} */}
-                <Form>
+                <Form onSubmit={registerExpense}>
                     <FormInput 
                         id="expenseValue" 
                         placeholder="Valor" 
                         onChange={handleValueField} 
                         value={expenseValue}
-                        type="number"
+                        type="text"
                         required
                         disabled={isFormDisabled}
                     />

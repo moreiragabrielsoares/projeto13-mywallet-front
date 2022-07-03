@@ -29,7 +29,13 @@ function NewIncomePage () {
             description: incomeDescription
         }
 
-        const request = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login", newIncomeObj);
+        const config = {
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        }
+
+        const request = axios.post("http://localhost:5000/newincome", newIncomeObj, config);
         
         request.then(registerSuccess);         
         
@@ -105,8 +111,7 @@ function NewIncomePage () {
 
                 <TitleLine>Nova entrada</TitleLine>
 
-                {/* Inserir onSubmit={registerIncome} */}
-                <Form>
+                <Form onSubmit={registerIncome}>
                     <FormInput 
                         id="incomeValue" 
                         placeholder="Valor" 
