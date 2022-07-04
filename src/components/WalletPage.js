@@ -3,7 +3,7 @@ import UserContext from '../contexts/UserContext'
 import { Link , useNavigate } from "react-router-dom";
 import styled from 'styled-components';
 import axios from 'axios';
-
+import { ThreeDots } from  'react-loader-spinner'
 
 
 
@@ -15,6 +15,8 @@ function WalletPage () {
     const [registers, setRegisters] = useState([]);
     const [netResult, setNetResult] = useState("");
     const [typeNetResult, setTypeNetResult] = useState("");
+
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
 
@@ -32,6 +34,7 @@ function WalletPage () {
             setRegisters(res.data.registers);
             setNetResult(res.data.netResult);
             setTypeNetResult(res.data.typeNetResult);
+            setIsLoading(false);
         }
         
         promisse.catch((erro) => {alert(erro.response.data.message)});
@@ -87,7 +90,19 @@ function WalletPage () {
 
                 <RegistersContainer>
 
-                    {verifyRegistersList()}
+                    {isLoading ? (
+
+                        <LoadingContainer>
+                            
+                            <ThreeDots color="#9259BE" height={100} width={100} />
+                             
+                        </LoadingContainer>
+                        ) 
+
+                        : 
+                        
+                        (verifyRegistersList())
+                    }
 
                 </RegistersContainer>
 
@@ -179,6 +194,7 @@ const EmptyContainer = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+    text-align: center;
     div {
         width: 180px;
         font-family: 'Raleway';
@@ -188,8 +204,18 @@ const EmptyContainer = styled.div`
         line-height: 23px;
         text-align: center;
         color: #868686;
-        margin: auto 0;
+        margin: auto;
+        padding: auto;
     }
+`;
+
+const LoadingContainer = styled.div`
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
 `;
 
 const NotEmptyContainer = styled.div`
