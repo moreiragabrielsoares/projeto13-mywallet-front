@@ -39,7 +39,7 @@ function NewIncomePage () {
         
         request.then(registerSuccess);         
         
-        request.catch((erro) => {alert(erro.response.data.message); setIsFormDisabled(false)});
+        request.catch((erro) => {alert(erro.response.data); setIsFormDisabled(false)});
 
     }
     

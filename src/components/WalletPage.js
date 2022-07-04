@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState, useContext , useEffect } from 'react';
 import UserContext from '../contexts/UserContext'
 import { Link , useNavigate } from "react-router-dom";
 import styled from 'styled-components';
@@ -10,7 +10,64 @@ import axios from 'axios';
 function WalletPage () {
 
 
-    const {userName} = useContext(UserContext);
+    const {userName , token} = useContext(UserContext);
+
+    const [registers, setRegisters] = useState([]);
+    const [netResult, setNetResult] = useState("");
+    const [typeNetResult, setTypeNetResult] = useState("");
+
+    useEffect(() => {
+
+        const config = {
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        }
+
+		const promisse = axios.get("http://localhost:5000/mywallet", config);
+
+		promisse.then(success);
+
+        function success (res) {
+            setRegisters(res.data.registers);
+            setNetResult(res.data.netResult);
+            setTypeNetResult(res.data.typeNetResult);
+        }
+        
+        promisse.catch((erro) => {alert(erro.response.data.message)});
+
+	}, []);
+
+   
+
+    function verifyRegistersList () {
+
+        if (registers.length === 0) {
+
+            return  <EmptyContainer>
+                        <div>Não há registros de entrada ou saída</div>
+                    </EmptyContainer>
+
+        } else {
+
+            return  <NotEmptyContainer>
+                        
+                        {registers.map( register => <LineRegister>
+                                                        <DayRegister>{register.date}</DayRegister>
+                                                        <DescriprionRegister>{register.description}</DescriprionRegister>
+                                                        <ValueRegister type={register.type}>{register.value}</ValueRegister>
+                                                    </LineRegister>)}
+
+                        <ResultLine>
+                            <span>SALDO</span>
+                            <ResultValue type={typeNetResult}>{netResult}</ResultValue>
+                        </ResultLine>
+
+                    </NotEmptyContainer>
+            
+        }
+    }
+
 
 
     return (
@@ -26,98 +83,7 @@ function WalletPage () {
 
                 <RegistersContainer>
 
-                    <NotEmptyContainer>
-
-                        <LineRegister>
-                            <DayRegister>30/11</DayRegister>
-                            <DescriprionRegister>AAAAAAAAAAAA</DescriprionRegister>
-                            <ValueRegister>40,00</ValueRegister>
-                        </LineRegister>
-
-                        <LineRegister>
-                            <DayRegister>30/11</DayRegister>
-                            <DescriprionRegister>Almoço mãe</DescriprionRegister>
-                            <ValueRegister>40,00</ValueRegister>
-                        </LineRegister>
-
-                        <LineRegister>
-                            <DayRegister>30/11</DayRegister>
-                            <DescriprionRegister>Almoço mãe</DescriprionRegister>
-                            <ValueRegister>40,00</ValueRegister>
-                        </LineRegister>
-
-                        <LineRegister>
-                            <DayRegister>30/11</DayRegister>
-                            <DescriprionRegister>Almoço mãe</DescriprionRegister>
-                            <ValueRegister>40,00</ValueRegister>
-                        </LineRegister>
-
-                        <LineRegister>
-                            <DayRegister>30/11</DayRegister>
-                            <DescriprionRegister>Almoço mãe</DescriprionRegister>
-                            <ValueRegister>40,00</ValueRegister>
-                        </LineRegister>
-
-                        <LineRegister>
-                            <DayRegister>30/11</DayRegister>
-                            <DescriprionRegister>Almoço mãe</DescriprionRegister>
-                            <ValueRegister>40,00</ValueRegister>
-                        </LineRegister>
-
-                        <LineRegister>
-                            <DayRegister>30/11</DayRegister>
-                            <DescriprionRegister>Almoço mãe</DescriprionRegister>
-                            <ValueRegister>40,00</ValueRegister>
-                        </LineRegister>
-
-                        <LineRegister>
-                            <DayRegister>30/11</DayRegister>
-                            <DescriprionRegister>Almoço mãe</DescriprionRegister>
-                            <ValueRegister>40,00</ValueRegister>
-                        </LineRegister>
-
-                        <LineRegister>
-                            <DayRegister>30/11</DayRegister>
-                            <DescriprionRegister>Almoço mãe</DescriprionRegister>
-                            <ValueRegister>40,00</ValueRegister>
-                        </LineRegister>
-
-                        <LineRegister>
-                            <DayRegister>30/11</DayRegister>
-                            <DescriprionRegister>Almoço mãe</DescriprionRegister>
-                            <ValueRegister>40,00</ValueRegister>
-                        </LineRegister>
-
-                        <LineRegister>
-                            <DayRegister>30/11</DayRegister>
-                            <DescriprionRegister>Almoço mãe</DescriprionRegister>
-                            <ValueRegister>40,00</ValueRegister>
-                        </LineRegister>
-
-                        <LineRegister>
-                            <DayRegister>30/11</DayRegister>
-                            <DescriprionRegister>Almoço mãe</DescriprionRegister>
-                            <ValueRegister>40,00</ValueRegister>
-                        </LineRegister>
-
-                        <LineRegister>
-                            <DayRegister>30/11</DayRegister>
-                            <DescriprionRegister>Almoço mãe</DescriprionRegister>
-                            <ValueRegister>40,00</ValueRegister>
-                        </LineRegister>
-
-                        <ResultLine>
-                            <span>SALDO</span>
-                            <div>3300,00</div>
-                        </ResultLine>
-
-                    </NotEmptyContainer>
-
-                    {/* 
-                    <EmptyContainer>
-                        <div>Não há registros de entrada ou saída</div>
-                    </EmptyContainer>
-                    */}
+                    {verifyRegistersList()}
 
                 </RegistersContainer>
 
@@ -271,8 +237,9 @@ const ValueRegister = styled.div`
     font-style: normal;
     font-weight: 400;
     font-size: 16px;
-    color: #03AC00;
-    //#C70000
+    color: ${props => props.type === "income" ? "#03AC00" : "#C70000"};
+    // #03AC00;
+    // #C70000
     margin-left: auto;
 `;
 
@@ -293,14 +260,15 @@ const ResultLine = styled.div`
         color: #000000;
     }
 
-    div {
-        font-family: 'Raleway';
-        font-style: normal;
-        font-weight: 400;
-        font-size: 17px;
-        color: #03AC00;
-        margin-left: auto;
-    }
+`;
+
+const ResultValue = styled.div`
+    font-family: 'Raleway';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 17px;
+    color: ${props => props.type === "positive" ? "#03AC00" : "#C70000"};
+    margin-left: auto;
 `;
 
 const ButtonsContainer = styled.div`
