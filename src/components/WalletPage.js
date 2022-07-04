@@ -78,7 +78,11 @@ function WalletPage () {
 
                 <TitleLine>
                     <Title>{`Olá, ${userName}`}</Title>
-                    <ion-icon name="exit-outline"></ion-icon>
+
+                    <Link to="/" style={{textDecoration: 'none'}}>
+                        <ion-icon name="exit-outline"></ion-icon>
+                    </Link>
+
                 </TitleLine>
 
                 <RegistersContainer>
