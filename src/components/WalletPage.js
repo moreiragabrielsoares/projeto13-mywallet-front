@@ -24,7 +24,7 @@ function WalletPage () {
             }
         }
 
-		const promisse = axios.get("http://localhost:5000/mywallet", config);
+		const promisse = axios.get("https://driven-projeto-mywallet-back.herokuapp.com/mywallet", config);
 
 		promisse.then(success);
 

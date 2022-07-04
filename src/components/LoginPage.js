@@ -28,7 +28,7 @@ function LoginPage() {
             password: userPassword
         }
 
-        const request = axios.post("http://localhost:5000/", loginObj);
+        const request = axios.post("https://driven-projeto-mywallet-back.herokuapp.com/", loginObj);
         
         request.then(loginSuccess);         
         

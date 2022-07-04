@@ -39,7 +39,7 @@ function NewExpensePage () {
             }
         }
 
-        const request = axios.post("http://localhost:5000/newexpense", newExpenseObj, config);
+        const request = axios.post("https://driven-projeto-mywallet-back.herokuapp.com/newexpense", newExpenseObj, config);
         
         request.then(registerSuccess);         
         

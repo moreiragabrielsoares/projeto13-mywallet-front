@@ -35,7 +35,7 @@ function NewIncomePage () {
             }
         }
 
-        const request = axios.post("http://localhost:5000/newincome", newIncomeObj, config);
+        const request = axios.post("https://driven-projeto-mywallet-back.herokuapp.com/newincome", newIncomeObj, config);
         
         request.then(registerSuccess);         
         

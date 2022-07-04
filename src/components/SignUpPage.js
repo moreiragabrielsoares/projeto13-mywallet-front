@@ -30,7 +30,7 @@ function SingUpPage() {
             confirmPassword: confirmPassword
         }
 
-        const request = axios.post("http://localhost:5000/signup", singUpObj);
+        const request = axios.post("https://driven-projeto-mywallet-back.herokuapp.com/signup", singUpObj);
         
         request.then((res) => {navigate("/")});         
         
