@@ -1,3 +1,12 @@
+# Meu primeiro projeto Fullstack
+
+Projeto consiste em um app de carteira virtual para controle financeiro
+
+Front-end: React JS  
+Back-end: Node.js  
+Database: MongoDB  
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
